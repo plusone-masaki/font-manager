@@ -14,13 +14,13 @@ NSString* CFStringToUtf8String(CFStringRef str)
   CFIndex max = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), kCFStringEncodingUTF8) + 1;
   char* buffer = (char*)malloc(max);
   if (CFStringGetCString(str, buffer, max, kCFStringEncodingUTF8)) {
-      return [NSString stringWithUTF8String: buffer];;
+      return [NSString stringWithUTF8String: buffer];
   }
   free(buffer);
   return NULL;
 }
-NSString* getLocalizedAttribute(CTFontDescriptorRef ref, CFStringRef attr, CFStringRef *localized) {
-  CFTypeRef value = CTFontDescriptorCopyLocalizedAttribute(ref, attr, localized);
+NSString* getLocalizedAttribute(CTFontDescriptorRef ref, CFStringRef attr) {
+  CFTypeRef value = CTFontDescriptorCopyLocalizedAttribute(ref, attr);
   if(value && (CFStringRef)value) {
     return CFStringToUtf8String((CFStringRef)value);
   }
@@ -82,7 +82,7 @@ long createFontDescriptor(FontDescriptor **res, CTFontDescriptorRef descriptor) 
   NSURL *url = (NSURL *) CTFontDescriptorCopyAttribute(descriptor, kCTFontURLAttribute);
   NSString *psName = (NSString *) CTFontDescriptorCopyAttribute(descriptor, kCTFontNameAttribute);
   NSString *family = (NSString *) CTFontDescriptorCopyAttribute(descriptor, kCTFontFamilyNameAttribute);
-  NSString *localizedName = getLocalizedAttribute(descriptor, kCTFontFamilyNameAttribute, NULL);
+  NSString *localizedName = getLocalizedAttribute(descriptor, kCTFontFamilyNameAttribute);
   NSString *enName = (NSString *) CTFontDescriptorCopyAttribute(descriptor, kCTFontFamilyNameAttribute);
   NSString *style = (NSString *) CTFontDescriptorCopyAttribute(descriptor, kCTFontStyleNameAttribute);
 
