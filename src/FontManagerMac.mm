@@ -20,7 +20,7 @@ NSString* CFStringToUtf8String(CFStringRef str)
   return NULL;
 }
 NSString* getLocalizedAttribute(CTFontDescriptorRef ref, CFStringRef attr) {
-  CFTypeRef value = CTFontDescriptorCopyLocalizedAttribute(ref, attr);
+  CFTypeRef value = CTFontDescriptorCopyLocalizedAttribute(ref, attr, NULL);
   if(value && (CFStringRef)value) {
     return CFStringToUtf8String((CFStringRef)value);
   }
